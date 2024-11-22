@@ -17,7 +17,7 @@ public class Livro {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "O título do livro é obrigatório e não pode ser vazio.")
+    @NotBlank(message = "O título do livro é obrigatório e não pode ser vazio")
     private String titulo;
 
     @NotBlank(message = "O gênero é obrigatório")
