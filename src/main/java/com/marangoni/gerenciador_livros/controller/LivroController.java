@@ -5,6 +5,8 @@ import com.marangoni.gerenciador_livros.model.Livro;
 import com.marangoni.gerenciador_livros.service.LivroService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,22 +21,23 @@ public class LivroController {
     private LivroService livroService;
 
     @PostMapping
-    public Livro criarLivro( @Valid @RequestBody Livro livro) {
-        return livroService.criarLivro(livro);
+    public ResponseEntity<Livro> criarLivro(@RequestBody @Valid Livro livro) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(livroService.criarLivro(livro));
     }
 
     @GetMapping
-    public List<Livro> listarLivrosPorAutor(@RequestParam Long autorId) {
-        return livroService.listarLivrosPorAutor(autorId);
+    public ResponseEntity<List<Livro>> listarLivrosPorAutor(@RequestParam Long autorId) {
+        return ResponseEntity.ok(livroService.listarLivrosPorAutor(autorId));
     }
 
     @PutMapping("/{id}")
-    public Livro atualizarLivro(@PathVariable Long id, @Valid @RequestBody Livro livroAtualizado) {
-        return livroService.atualizarLivro(id, livroAtualizado);
+    public ResponseEntity<Livro> atualizarLivro(@PathVariable Long id, @RequestBody @Valid Livro livroAtualizado) {
+        return ResponseEntity.ok(livroService.atualizarLivro(id, livroAtualizado));
     }
 
     @DeleteMapping("/{id}")
-    public void removerLivro(@PathVariable Long id) {
+    public ResponseEntity<Void> removerLivro(@PathVariable Long id) {
         livroService.removerLivro(id);
+        return ResponseEntity.noContent().build();
     }
 }

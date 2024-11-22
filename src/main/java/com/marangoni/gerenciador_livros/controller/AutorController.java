@@ -2,7 +2,10 @@ package com.marangoni.gerenciador_livros.controller;
 
 import com.marangoni.gerenciador_livros.model.Autor;
 import com.marangoni.gerenciador_livros.service.AutorService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,17 +18,18 @@ public class AutorController {
     private AutorService autorService;
 
     @PostMapping
-    public Autor criarAutor(@RequestBody Autor autor) {
-        return autorService.criarAutor(autor);
+    public ResponseEntity<Autor> criarAutor(@RequestBody @Valid Autor autor) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(autorService.criarAutor(autor));
     }
 
     @GetMapping
-    public List<Autor> listarAutores() {
-        return autorService.listarAutores();
+    public ResponseEntity<List<Autor>> listarAutores() {
+        return ResponseEntity.ok(autorService.listarAutores());
     }
 
     @DeleteMapping("/{id}")
-    public void removerAutor(@PathVariable Long id) {
+    public ResponseEntity<Void> removerAutor(@PathVariable Long id) {
         autorService.removerAutor(id);
+        return ResponseEntity.noContent().build();
     }
 }
