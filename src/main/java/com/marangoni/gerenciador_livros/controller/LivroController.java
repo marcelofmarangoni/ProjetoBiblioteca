@@ -1,21 +1,25 @@
+
 package com.marangoni.gerenciador_livros.controller;
 
 import com.marangoni.gerenciador_livros.model.Livro;
 import com.marangoni.gerenciador_livros.service.LivroService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/livros")
+@Validated
 public class LivroController {
 
     @Autowired
     private LivroService livroService;
 
     @PostMapping
-    public Livro criarLivro(@RequestBody Livro livro) {
+    public Livro criarLivro( @Valid @RequestBody Livro livro) {
         return livroService.criarLivro(livro);
     }
 
@@ -25,7 +29,7 @@ public class LivroController {
     }
 
     @PutMapping("/{id}")
-    public Livro atualizarLivro(@PathVariable Long id, @RequestBody Livro livroAtualizado) {
+    public Livro atualizarLivro(@PathVariable Long id, @Valid @RequestBody Livro livroAtualizado) {
         return livroService.atualizarLivro(id, livroAtualizado);
     }
 
